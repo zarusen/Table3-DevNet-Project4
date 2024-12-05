@@ -1,9 +1,0 @@
-[router]
-
-R1 ansible_user=cisco ansible_password=cisco
-ansible_host=192.168.1.1
-
-[switch]
-
-SW1 ansible_user=cisco ansible_password=cisco
-ansible_host =192.168.1.2
