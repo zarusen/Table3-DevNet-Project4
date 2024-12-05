@@ -1,0 +1,14 @@
+---
+- name: VLAN_Config
+  hosts: SW1
+  gather_facts: false
+  connection: network_cli
+ 
+  tasks:
+  - name: VLAN Configuration
+   cisco.ios.ios_vlans:
+    config:
+      - name: Test_1
+      vlan_id: 10
+      - name: Test_2
+      vlan_id: 20
