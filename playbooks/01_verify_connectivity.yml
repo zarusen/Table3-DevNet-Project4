@@ -1,11 +1,15 @@
 ---
-- hosts: SW1
+- name: Ping Network Devices via CLI
+  hosts: all
+  gather_facts: no
+  connection: network_cli
   tasks:
-    - ping: 192.168.1.3
+    - name: Ping from network device CLI
+      ios_command:
+        commands:
+          - ping 192.168.1.4
       register: ping_result
-
-- hosts: R1
-  tasks:
-    - name: ConnectivityCheck
-      ping: 192.168.1.3
-      register: ping_result
+ 
+    - name: Display ping result
+      ansible.builtin.debug:
+        var: ping_result.stdout_lines
