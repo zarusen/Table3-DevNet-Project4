@@ -1,27 +1,43 @@
 ---
-- name: Basic_Configs
-  hosts: SW1
-  gather_facts: false
+- name: Configure Hostname, Domain Name, and Enable SSH on Cisco Devices
+  hosts: all
+  gather_facts: no
   connection: network_cli
- 
   tasks:
-  - name: Change hostname
-   ios_config:
-    authorize: yes
-    config:
-      - hostname "SW1"
-      - ip domain-name "Table3.com"
-  
-  - name: Generate RSA key pair for SSH
-    ios_config:
-    authorize: yes
-    config:
-      - crypto key generate rsa modules 2048
-  
-  - name: Enable SSH on VTY lines
-    ios_config:
-      authorize: yes
-      parents: line vty 0 4
-      config:
-        - transport input ssh
-        - login local
+    - name: Configure Hostname
+      become: yes
+      become_method: enable
+      ios_config:
+        lines:
+          - hostname newR1
+
+    - name: Configure Domain Name
+      become: yes
+      become_method: enable
+      ios_config:
+        lines:
+          - ip domain-name ansible.com
+
+    - name: Generate RSA Keys for SSH
+      become: yes
+      become_method: enable
+      ios_config:
+        lines:
+          - crypto key generate rsa modulus 1024
+
+    - name: Enable SSH Version 2
+      become: yes
+      become_method: enable
+      ios_config:
+        lines:
+          - ip ssh version 2
+
+    - name: Configure VTY Lines for SSH Access
+      become: yes
+      become_method: enable
+      ios_config:
+        parents:
+          - line vty 0 4
+        lines:
+          - login local
+          - transport input ssh
