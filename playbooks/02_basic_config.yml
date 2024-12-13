@@ -39,6 +39,8 @@
         parents:
           - line vty 0 4
         lines:
+          - login local
+          - transport input ssh
 - name: Configure Hostname, Domain Name, and Enable SSH on Switch
   hosts: SW1
   gather_facts: no
